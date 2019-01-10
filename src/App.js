@@ -1,21 +1,29 @@
 import React, { Component } from 'react';
 
 import './App.css';
-import Header from './components/Header.js'
-import Contacts from './components/Contacts.js'
-//import Contact from './components/Contact.js'
+import Header from './components/Layout/Header.js';
+import Contacts from './components/Contact/Contacts.js';
+import AddContact from './components/Contact/AddContact';
+
+//Import the provider part of context.
+import {Provider} from './context.js'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <Header branding="Contact Manager"></Header>
-        <div className="container">
-          <Contacts/>
+
+      //Wrap provider around app where it will be available.
+      <Provider>
+        <div className="App">
+          <Header branding="Contact Manager"></Header>
+          <div className="container">
+            <AddContact/>
+            <Contacts/>
+          </div>
         </div>
-      </div>
+      </Provider>
     );
   }
 }

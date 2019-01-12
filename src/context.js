@@ -15,6 +15,13 @@ const reducer = (state, action)=>{
                 return contact.id !== action.payload
             }),
         }
+        
+        case "ADD_CONTACT":
+        return{
+            ...state,
+            contacts: state.contacts.push(action.payload)
+        } 
+
         default: 
             return state;
     }

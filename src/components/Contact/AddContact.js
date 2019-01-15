@@ -1,43 +1,82 @@
 import React, { Component } from 'react'
+import { Consumer } from '../../context';
+import TextInputGroup from '../Layout/TextInputGroup'
+import uuid from 'uuid';
 
 export default class AddContact extends Component {
     state = {
         name: '',
         email: '',
-        phone: ''
+        phone: '',
+        errors: {}
     }
 
-    onChange = (e)=>{
+    onChange = (e) => {
         return this.setState({ [e.target.name]: e.target.value })
     }
-    onSubmit = (e) =>{
+
+    onSubmit = (dispatch, e) => {
         e.preventDefault();
-          
+        const {name, email, phone} = this.state;
+
+        //Check for errors
+        if(name === ''){
+            this.setState({errors: {name: "Name is required."}})
+            return;
+        }
+        if(email === ''){
+            this.setState({errors: {email: "Email is required."}})
+            return;
+        }
+        if(phone === ''){
+            this.setState({errors: {phone: "Phone is required."}})
+            return;
+        }
+
+        const newContact = {
+            id: uuid(),
+            name,
+            email,
+            phone
+        }
+        console.log(newContact); 
+        dispatch({type: 'ADD_CONTACT', payload: newContact});
+        //Clear fields
+        this.setState({
+            name : "",        
+            email : '',
+            phone : '',
+            errors: {}
+        })
+        
+        
     }
 
     render() {
-        const {name, email, phone} = this.state;
+        const { name, email, phone, errors } = this.state;
+
         return (
-            <div className="card card-primary mb-3">
-                <div className="card-header bg-danger text-white">Add Contact</div>
-                <div className="card-body">
-                    <form onSubmit={this.onSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="name">Name</label>
-                            <input type="text" className="form-control form-control-lg" name="name" placeholder="Enter Name..." value={name} onChange={this.onChange}/>
-                        </div><hr/>
-                        <div className="form-group">
-                            <label htmlFor="email">Email</label>
-                            <input type="text" className="form-control form-control-lg" name="email" placeholder="Enter Email..." value={email} onChange={this.onChange}/>
-                        </div><hr/>
-                        <div className="form-group">
-                            <label htmlFor="phone">Phone</label>
-                            <input type="text" className="form-control form-control-lg" name="phone" placeholder="Enter Phone..." value={phone} onChange={this.onChange}/>
-                        </div><hr/>
-                        <input type="submit" value="Add Contact" className="btn btn-block btn-danger"/>
-                    </form>
-                </div>
-            </div>
+            <Consumer>
+                {(value) => {
+                    const { dispatch } = value;
+                    return (
+                        <div className="card card-primary mb-3">
+                            <div className="card-header bg-danger text-white">Add Contact</div>
+                            <div className="card-body">
+                                <form onSubmit={this.onSubmit.bind(this, dispatch)}>
+                                    <TextInputGroup label="Name" name="name" placeholder="Enter Name..." value={name} onChange={this.onChange} error={errors.name}/>
+                                    <hr/>
+                                    <TextInputGroup label="Email" name="email" type="email" placeholder="Enter Email..." value={email} onChange={this.onChange} error={errors.email}/>
+                                    <hr/>
+                                    <TextInputGroup label="Phone" name="phone" type="number" placeholder="Enter Phone..." value={phone} onChange={this.onChange} error={errors.phone}/>
+                                    <hr/>
+                                    <input type="submit" value="Add Contact" className="btn btn-block btn-danger" />
+                                </form>
+                            </div>
+                        </div>
+                    )
+                }}
+            </Consumer>
         )
     }
 }

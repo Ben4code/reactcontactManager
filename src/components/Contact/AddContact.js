@@ -48,8 +48,8 @@ export default class AddContact extends Component {
             phone : '',
             errors: {}
         })
-        
-        
+        //Redirect to home
+        this.props.history.push('/');
     }
 
     render() {
@@ -60,8 +60,8 @@ export default class AddContact extends Component {
                 {(value) => {
                     const { dispatch } = value;
                     return (
-                        <div className="card card-primary mb-3">
-                            <div className="card-header bg-danger text-white">Add Contact</div>
+                        <div className="card  mb-3">
+                            <div className="card-header bg-success text-white">Add Contact</div>
                             <div className="card-body">
                                 <form onSubmit={this.onSubmit.bind(this, dispatch)}>
                                     <TextInputGroup label="Name" name="name" placeholder="Enter Name..." value={name} onChange={this.onChange} error={errors.name}/>
@@ -70,7 +70,7 @@ export default class AddContact extends Component {
                                     <hr/>
                                     <TextInputGroup label="Phone" name="phone" type="number" placeholder="Enter Phone..." value={phone} onChange={this.onChange} error={errors.phone}/>
                                     <hr/>
-                                    <input type="submit" value="Add Contact" className="btn btn-block btn-danger" />
+                                    <input type="submit" value="Add Contact" className="btn btn-block btn-success" />
                                 </form>
                             </div>
                         </div>

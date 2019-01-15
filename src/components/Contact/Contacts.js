@@ -12,6 +12,8 @@ import {Consumer} from '../../context';
               const {contacts} = store;
               return (
                 <React.Fragment>
+                  <h1 className="display-4 mb-2">
+                  <span className="text-success">Contact</span> List</h1>
                   {contacts.map((contact)=>{
                     return (
                       <Contact key={contact.id} contact={contact} />

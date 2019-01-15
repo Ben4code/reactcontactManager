@@ -6,6 +6,7 @@ import Header from './components/Layout/Header.js';
 import About from './components/Pages/About.js';
 import Contacts from './components/Contact/Contacts.js';
 import AddContact from './components/Contact/AddContact';
+import NotFound from './components/Pages/NotFound';
 
 //Import the provider part of context.
 import { Provider } from './context.js'
@@ -26,6 +27,7 @@ class App extends Component {
                 <Route exact path="/" component={Contacts}/>
                 <Route  path="/contact/add" component={AddContact}/>
                 <Route  path="/about" component={About}/>
+                <Route  path="*" component={NotFound}/>
               </Switch>
             </div>
           </div>

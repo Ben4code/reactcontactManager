@@ -1,5 +1,6 @@
 // (1). Import React/Components
 import React, {Component} from'react'; 
+import axios from 'axios';
 
 // (2). Create and export the Context constant.
 const Context = React.createContext();
@@ -32,11 +33,7 @@ export class Provider extends Component{
 
     state = {
 
-        contacts : [
-          {id: 1, name: 'Ben Obi', email: 'benobi@email.com', phone: '123-456-789'},
-          {id: 2, name: 'Jane Doe', email: 'marydoe@email.com', phone: '098-456-789'},
-          {id: 3, name: 'Terry Smith', email: 'terrysmith@email.com', phone: '123-103-789'}
-        ],
+        contacts : [],
 
         dispatch: (action)=>{
             return this.setState( (state)=>{
@@ -44,7 +41,12 @@ export class Provider extends Component{
             })
         }
      }
-   
+     
+     componentDidMount(){
+        axios.get('https://jsonplaceholder.typicode.com/users')
+        .then(response => this.setState({contacts: response.data}))
+     }
+
      render(){
          return (
              <Context.Provider value={this.state}>
